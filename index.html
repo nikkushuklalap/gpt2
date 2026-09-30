@@ -84,14 +84,20 @@ function openModal(){document.getElementById('overlay').classList.add('show');do
 function closeModal(){document.getElementById('overlay').classList.remove('show');document.body.style.overflow='';document.querySelectorAll('.stepbox').forEach(x=>x.classList.remove('active'));document.getElementById('s1').classList.add('active');updateBars(1)}
 function selectService(s,p){service=s;price=p;openModal();highlightService(s);toast(s+' selected')}
 function highlightService(s){document.querySelectorAll('#s1 .choice').forEach(x=>x.classList.toggle('selected',x.textContent.includes(s)))}
-function chooseService(s,p,el){service=s;price=p;document.querySelectorAll('#s1 .choice').forEach(x=>x.classList.remove('selected'));el.classList.add('selected')}
+function chooseService(s,p,el){service=s;price=Number(p)||0;document.querySelectorAll('#s1 .choice').forEach(x=>x.classList.remove('selected'));el.classList.add('selected');toast(s+' selected — ₹'+price)}
+function getServicePrice(){
+ const prices={'Flat tyre':149,'Battery':199,'Engine issue':299,'Towing':499};
+ if(!price || Number(price)<=0) price=prices[service]||0;
+ return Number(price)||0;
+}
 function chooseMechanic(n,r,el){mechanic=n;document.querySelectorAll('#s2 .choice').forEach(x=>x.classList.remove('selected'));el.classList.add('selected')}
 function payChoice(p,el){payment=p;document.querySelectorAll('#s4 .choice').forEach(x=>x.classList.remove('selected'));el.classList.add('selected')}
 function updateBars(n){for(let i=1;i<=4;i++)document.getElementById('b'+i).classList.toggle('active',i<=n)}
 function next(n){
  if(n===2&&!service)return toast('Please select a service');
+ if(n===2&&service){getServicePrice();document.querySelector('#s1 .choice.selected')?.scrollIntoView({block:'nearest'});}
  if(n===3&&!mechanic)return toast('Please choose a mechanic');
- if(n===4){const l=document.getElementById('bookLocation').value.trim();const d=document.getElementById('details').value.trim();if(!l)return toast('Please enter your location');if(!d)return toast('Please describe the problem');document.getElementById('sumService').textContent=service;document.getElementById('sumMechanic').textContent=mechanic;document.getElementById('sumVehicle').textContent=document.getElementById('vehicle').value;document.getElementById('sumLocation').textContent=l;document.getElementById('sumDetails').textContent=d;document.getElementById('sumTotal').textContent='₹'+price}
+ if(n===4){getServicePrice();const l=document.getElementById('bookLocation').value.trim();const d=document.getElementById('details').value.trim();if(!l)return toast('Please enter your location');if(!d)return toast('Please describe the problem');document.getElementById('sumService').textContent=service;document.getElementById('sumMechanic').textContent=mechanic;document.getElementById('sumVehicle').textContent=document.getElementById('vehicle').value;document.getElementById('sumLocation').textContent=l;document.getElementById('sumDetails').textContent=d;document.getElementById('sumTotal').textContent='₹'+getServicePrice()}
  document.querySelectorAll('.stepbox').forEach(x=>x.classList.remove('active'));document.getElementById('s'+n).classList.add('active');updateBars(Math.min(n,4))
 }
 
@@ -99,7 +105,7 @@ async function confirmBooking(){
  const location=document.getElementById('bookLocation').value.trim();
  const vehicle=document.getElementById('vehicle').value;
  const details=document.getElementById('details').value.trim();
- const booking={service,price,mechanic,location,vehicle,details,payment_method:payment,status:'requested'};
+ const booking={service,price:getServicePrice(),mechanic,location,vehicle,details,payment_method:payment,status:'requested'};
  try{
   const r=await fetch(SUPABASE_URL+'/rest/v1/bookings',{method:'POST',headers:sbHeaders({'Prefer':'return=representation'}),body:JSON.stringify(booking)});
   const data=await r.json();
