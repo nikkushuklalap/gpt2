@@ -30,17 +30,13 @@ button,input,select{font:inherit}button{cursor:pointer;border:0}
 <button class="service" onclick="selectService('Engine issue',299)"><div class="icon">🔧</div><h3>Engine issue</h3><p>Diagnostics and on-site repair</p><div class="price">From ₹299</div></button>
 <button class="service" onclick="selectService('Towing',499)"><div class="icon">🚙</div><h3>Towing</h3><p>Get your vehicle safely to a garage</p><div class="price">From ₹499</div></button>
 </div></section>
-<section class="section" id="mechanics"><h2>Available near you</h2><p class="sub">Verified mechanics ready to take your request.</p><div class="mechanics">
-<div class="mechanic"><div class="avatar">RS</div><div class="mechanic-info"><div class="mname">Ravi Singh</div><div class="meta"><span class="rating">★ 4.9</span> · 1.2 km · 8 min away</div><div class="special">🔧 Engine & Battery Specialist</div><div class="online">● Online now</div></div><button class="call" onclick="book('Ravi Singh')">Book</button></div>
-<div class="mechanic"><div class="avatar">AK</div><div class="mechanic-info"><div class="mname">Amit Kumar</div><div class="meta"><span class="rating">★ 4.8</span> · 2.0 km · 12 min away</div><div class="special">🔧 Tyre & Roadside Specialist</div><div class="online">● Online now</div></div><button class="call" onclick="book('Amit Kumar')">Book</button></div>
-<div class="mechanic"><div class="avatar">MS</div><div class="mechanic-info"><div class="mname">Mohit Sharma</div><div class="meta"><span class="rating">★ 4.7</span> · 2.4 km · 15 min away</div><div class="special">🔧 Towing & Breakdown Specialist</div><div class="online">● Online now</div></div><button class="call" onclick="book('Mohit Sharma')">Book</button></div>
-</div></section>
+<section class="section" id="mechanics"><h2>Available near you</h2><p class="sub">Only mechanics who are currently available for bookings are shown.</p><div class="mechanics" id="mechanicsList"><p class="smallmuted">Loading available mechanics…</p></div></section>
 <section class="section" id="how"><h2>How MechNow works</h2><p class="sub">Three simple steps from problem to solution.</p><div class="steps"><div class="step"><div class="num">01</div><h3>Tell us the problem</h3><p>Choose a service and share your location.</p></div><div class="step"><div class="num">02</div><h3>Get a mechanic</h3><p>See available mechanics, ratings and estimated arrival.</p></div><div class="step"><div class="num">03</div><h3>Pay securely</h3><p>Choose UPI, card, wallet or another supported method.</p></div></div></section>
 </main><footer>© 2026 MechNow · On-demand vehicle assistance</footer>
 
 <div class="overlay" id="overlay"><div class="modal"><div class="modalhead"><div><div class="badge">BOOKING</div><h2 style="margin:8px 0 0">Book a mechanic</h2></div><button class="close" onclick="closeModal()">✕</button></div><div class="progress"><span class="bar active" id="b1"></span><span class="bar" id="b2"></span><span class="bar" id="b3"></span><span class="bar" id="b4"></span></div>
 <div class="stepbox active" id="s1"><p class="sub">Select what you need help with.</p><div class="choices"><button class="choice" onclick="chooseService('Flat tyre',149,this)">🛞 Flat tyre<br><small>From ₹149</small></button><button class="choice" onclick="chooseService('Battery',199,this)">🔋 Battery<br><small>From ₹199</small></button><button class="choice" onclick="chooseService('Engine issue',299,this)">🔧 Engine issue<br><small>From ₹299</small></button><button class="choice" onclick="chooseService('Towing',499,this)">🚙 Towing<br><small>From ₹499</small></button></div><div class="actions"><button class="btn" onclick="next(2)">Continue</button></div></div>
-<div class="stepbox" id="s2"><p class="sub">Choose an available mechanic.</p><div class="choices"><button class="choice" onclick="chooseMechanic('Ravi Singh',4.9,this)"><b>Ravi Singh</b><br><small>★ 4.9 · 1.2 km · 8 min</small></button><button class="choice" onclick="chooseMechanic('Amit Kumar',4.8,this)"><b>Amit Kumar</b><br><small>★ 4.8 · 2.0 km · 12 min</small></button><button class="choice" onclick="chooseMechanic('Mohit Sharma',4.7,this)"><b>Mohit Sharma</b><br><small>★ 4.7 · 2.4 km · 15 min</small></button></div><div class="actions"><button class="secondary" onclick="next(1)">Back</button><button class="btn" onclick="next(3)">Continue</button></div></div>
+<div class="stepbox" id="s2"><p class="sub">Choose an available mechanic.</p><div class="choices" id="bookingMechanicChoices"><p class="smallmuted">Loading available mechanics…</p></div><div class="actions"><button class="secondary" onclick="next(1)">Back</button><button class="btn" onclick="next(3)">Continue</button></div></div>
 <div class="stepbox" id="s3"><p class="sub">Tell the mechanic where your vehicle is and what you drive.</p><div class="field"><label>Pickup location</label><input id="bookLocation" placeholder="e.g. Boring Road, Patna"><button type="button" class="secondary" style="margin-top:8px;width:100%" onclick="useMyLocation()">📍 Use my location</button></div><div class="field"><label>Vehicle</label><select id="vehicle"><option>Maruti Swift</option><option>Hyundai i20</option><option>Tata Nexon</option><option>Mahindra Scorpio</option><option>Other vehicle</option></select></div><div class="field"><label>Problem details (required)</label><input id="details" placeholder="Describe the issue briefly"></div><div class="actions"><button class="secondary" onclick="next(2)">Back</button><button class="btn" onclick="next(4)">Review booking</button></div></div>
 <div class="stepbox" id="s4"><p class="sub">Review your request and select a payment method.</p><div class="summary"><div class="row"><span>Service</span><b id="sumService">—</b></div><div class="row"><span>Mechanic</span><b id="sumMechanic">—</b></div><div class="row"><span>Vehicle</span><b id="sumVehicle">—</b></div><div class="row"><span>Location</span><b id="sumLocation">—</b></div><div class="row"><span>Problem</span><b id="sumDetails">—</b></div><div class="row total"><span>Estimated total</span><b id="sumTotal">₹0</b></div></div><div class="field"><label>Payment method</label><div class="choices"><button class="choice selected" onclick="payChoice('UPI',this)">📱 UPI<br><small>GPay / PhonePe / Paytm</small></button><button class="choice" onclick="payChoice('Card',this)">💳 Card<br><small>Credit / Debit</small></button><button class="choice" onclick="payChoice('Cash',this)">💵 Cash<br><small>Pay after service</small></button></div></div><div class="actions"><button class="secondary" onclick="next(3)">Back</button><button class="btn" onclick="confirmBooking()">Confirm booking</button></div></div>
 <div class="stepbox" id="s5"><div class="success"><div class="check">✓</div><span class="badge">BOOKING CONFIRMED</span><h2>Booking created</h2><p class="sub">Your request has been sent to the selected mechanic.</p><div class="summary"><div class="row"><span>Booking ID</span><b id="bookingId">—</b></div><div class="row"><span>Mechanic</span><b id="doneMechanic">—</b></div></div><div class="actions"><button class="btn" onclick="closeModal()">Done</button></div></div></div>
@@ -92,10 +88,54 @@ function selectService(s,p){service=s;price=p;openModal();highlightService(s);to
 function highlightService(s){document.querySelectorAll('#s1 .choice').forEach(x=>x.classList.toggle('selected',x.textContent.includes(s)))}
 function chooseService(s,p,el){service=s;price=p;document.querySelectorAll('#s1 .choice').forEach(x=>x.classList.remove('selected'));el.classList.add('selected')}
 function chooseMechanic(n,r,el){mechanic=n;document.querySelectorAll('#s2 .choice').forEach(x=>x.classList.remove('selected'));el.classList.add('selected')}
+
+async function getAvailableMechanics(){
+ const r=await fetch(SUPABASE_URL+'/rest/v1/accounts?role=eq.mechanic&is_online=eq.true&select=id,name,phone,role,skills,location,latitude,longitude,is_online',{headers:sbHeaders()});
+ const text=await r.text();let d;try{d=JSON.parse(text)}catch{d=[]}
+ if(!r.ok)throw new Error(d?.message||'Could not load mechanics');
+ return d;
+}
+
+function mechanicInitials(name){
+ return String(name||'').trim().split(/\s+/).map(x=>x[0]).join('').slice(0,2).toUpperCase()||'M';
+}
+
+function mechanicCard(m){
+ const name=escapeHtml(m.name||'Mechanic');
+ const skills=escapeHtml(m.skills||'Roadside assistance');
+ const location=escapeHtml(m.location||'Service area not specified');
+ const rawName=String(m.name||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+ return `<div class="mechanic"><div class="avatar">${mechanicInitials(m.name)}</div><div class="mechanic-info"><div class="mname">${name}</div><div class="meta"><span class="rating">● Available</span> · ${location}</div><div class="special">🔧 ${skills}</div><div class="online">● Online now</div></div><button class="call" onclick="book('${rawName}')">Book</button></div>`;
+}
+
+async function renderAvailableMechanics(){
+ const list=document.getElementById('mechanicsList');
+ if(!list)return;
+ list.innerHTML='<p class="smallmuted">Loading available mechanics…</p>';
+ try{
+  const rows=await getAvailableMechanics();
+  list.innerHTML=rows.length?rows.map(mechanicCard).join(''):'<p class="smallmuted">No mechanics are online right now. Please check again soon.</p>';
+ }catch(e){
+  list.innerHTML=`<div class="dashcard"><b>Could not load mechanics</b><p class="smallmuted">${escapeHtml(e.message)}</p></div>`;
+ }
+}
+
+async function renderBookingMechanics(){
+ const box=document.getElementById('bookingMechanicChoices');
+ if(!box)return;
+ box.innerHTML='<p class="smallmuted">Loading available mechanics…</p>';
+ try{
+  const rows=await getAvailableMechanics();
+  box.innerHTML=rows.length?rows.map(m=>`<button class="choice" onclick="chooseMechanic(${JSON.stringify(m.name||'Mechanic')},${Number(m.rating||5)},this)"><b>${escapeHtml(m.name||'Mechanic')}</b><br><small>● Available · ${escapeHtml(m.location||'Service area not specified')}</small></button>`).join(''):'<p class="smallmuted">No mechanics are online right now. Please go back and try again later.</p>';
+ }catch(e){
+  box.innerHTML=`<p class="smallmuted">Could not load mechanics: ${escapeHtml(e.message)}</p>`;
+ }
+}
 function payChoice(p,el){payment=p;document.querySelectorAll('#s4 .choice').forEach(x=>x.classList.remove('selected'));el.classList.add('selected')}
 function updateBars(n){for(let i=1;i<=4;i++)document.getElementById('b'+i).classList.toggle('active',i<=n)}
-function next(n){
+async function next(n){
  if(n===2&&!service)return toast('Please select a service');
+ if(n===2)await renderBookingMechanics();
  if(n===3&&!mechanic)return toast('Please choose a mechanic');
  if(n===4){const l=document.getElementById('bookLocation').value.trim();const d=document.getElementById('details').value.trim();if(!l)return toast('Please enter your location');if(!d)return toast('Please describe the problem');document.getElementById('sumService').textContent=service;document.getElementById('sumMechanic').textContent=mechanic;document.getElementById('sumVehicle').textContent=document.getElementById('vehicle').value;document.getElementById('sumLocation').textContent=l;document.getElementById('sumDetails').textContent=d;document.getElementById('sumTotal').textContent='₹'+price}
  document.querySelectorAll('.stepbox').forEach(x=>x.classList.remove('active'));document.getElementById('s'+n).classList.add('active');updateBars(Math.min(n,4))
@@ -256,6 +296,7 @@ async function toggleMechanicAvailability(){
   currentUser=d[0]||Object.assign({},currentUser,{is_online:next});
   localStorage.setItem('mechnowUser',JSON.stringify(currentUser));
   await renderDashboard();
+  await renderAvailableMechanics();
   toast(next?'You are now online':'You are now offline');
  }catch(e){toast(e.message||'Could not update availability')}
 }
