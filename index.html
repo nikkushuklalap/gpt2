@@ -137,7 +137,7 @@ async function submitAuth(){
    const r=await fetch(SUPABASE_URL+'/rest/v1/accounts',{method:'POST',headers:sbHeaders({'Prefer':'return=representation'}),body:JSON.stringify({name,phone,role})});
    const d=await r.json();if(!r.ok)throw new Error(d?.message||'Registration failed');data=d[0]||d;
   }else{
-   const r=await fetch(SUPABASE_URL+'/rest/v1/accounts?phone=eq.'+encodeURIComponent(phone)+'&select=id,name,phone,role');
+   const r=await fetch(SUPABASE_URL+'/rest/v1/accounts?phone=eq.'+encodeURIComponent(phone)+'&select=id,name,phone,role',{headers:sbHeaders()});
    const d=await r.json();if(!r.ok)throw new Error(d?.message||'Login failed');if(!d.length)throw new Error('Account not found. Please register first.');data=d[0];
   }
   currentUser=data;localStorage.setItem('mechnowUser',JSON.stringify(data));renderDashboard();
