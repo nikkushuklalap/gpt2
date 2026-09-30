@@ -46,6 +46,29 @@ button,input,select{font:inherit}button{cursor:pointer;border:0}
 <div class="stepbox" id="s5"><div class="success"><div class="check">✓</div><span class="badge">BOOKING CONFIRMED</span><h2>Booking created</h2><p class="sub">Your request has been sent to the selected mechanic.</p><div class="summary"><div class="row"><span>Booking ID</span><b id="bookingId">—</b></div><div class="row"><span>Mechanic</span><b id="doneMechanic">—</b></div></div><div class="actions"><button class="btn" onclick="closeModal()">Done</button></div></div></div>
 </div></div><div class="toast" id="toast"></div>
 
+<div class="account-overlay" id="accountOverlay">
+  <div class="account-modal">
+    <div class="modalhead">
+      <div><div class="badge">ACCOUNT</div><h2 style="margin:8px 0 0">Your MechNow account</h2></div>
+      <button class="close" onclick="closeAccount()">✕</button>
+    </div>
+    <div id="authView">
+      <div class="tabs">
+        <button id="loginTab" class="active" onclick="showAuth('login')">Login</button>
+        <button id="registerTab" onclick="showAuth('register')">Register</button>
+      </div>
+      <div class="field" id="authNameWrap"><label>Name</label><input id="authName" placeholder="Your name"></div>
+      <div class="field"><label>Phone number</label><input id="authPhone" placeholder="e.g. 9876543210"></div>
+      <div class="field" id="authRoleWrap"><label>Account type</label><select id="authRole"><option value="customer">Customer</option><option value="mechanic">Mechanic</option></select></div>
+      <div class="actions"><button class="btn" onclick="submitAuth()">Continue</button></div>
+      <p class="smallmuted">Use the same phone number you registered with.</p>
+    </div>
+    <div id="dashView" style="display:none">
+      <div class="dashrow"><div><h3 id="dashName" style="margin:0">Account</h3><div id="dashRole" class="smallmuted"></div></div><button class="secondary" onclick="logoutDemo()">Log out</button></div>
+      <div id="dashContent" style="margin-top:15px"></div>
+    </div>
+  </div>
+</div>
 <script>
 const SUPABASE_URL='https://srtdogisuttbqvrtmgfo.supabase.co';
 const SUPABASE_KEY='sb_publishable_nXjJ4_ha4vvrPR4-TFZ0qA_0sNyamDf';
