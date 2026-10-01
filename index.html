@@ -367,6 +367,8 @@ function logoutDemo(){
 document.getElementById('accountOverlay').addEventListener('click',e=>{if(e.target.id==='accountOverlay')closeAccount()});
 showAuth('login');
 registrationOnline=false;
+renderAvailableMechanics();
+setInterval(renderAvailableMechanics,5000);
 </script>
 
 <div id="backend-status" style="position:fixed;bottom:14px;right:14px;background:#111827;color:#fff;padding:10px 14px;border-radius:12px;font:600 12px system-ui;z-index:9999;box-shadow:0 8px 24px #0002">Supabase: checking…</div>
